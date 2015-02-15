@@ -68,11 +68,12 @@ conversions:
     "Vec2": "ok &= jsval_to_vector2(cx, ${in_value}, &${out_value})"
     "Vec3": "ok &= jsval_to_vector3(cx, ${in_value}, &${out_value})"
     "BlendFunc": "ok &= jsval_to_blendfunc(cx, ${in_value}, &${out_value})"
+    "AnimationInfo": "ok &= jsval_to_animationInfo(cx, ${in_value}, &${out_value})"
     object: |
       do {
       ${($level + 1) * '    '}if (!${in_value}.isObject()) { ok = false; break; }
       ${($level + 1) * '    '}js_proxy_t *jsProxy;
-      ${($level + 1) * '    '}JSObject *tmpObj = JSVAL_TO_OBJECT(${in_value});
+      ${($level + 1) * '    '}JSObject *tmpObj = ${in_value}.toObjectOrNull();
       ${($level + 1) * '    '}jsProxy = jsb_get_js_proxy(tmpObj);
       ${($level + 1) * '    '}${out_value} = (${ntype})(jsProxy ? jsProxy->ptr : NULL);
       ${($level + 1) * '    '}JSB_PRECONDITION2( ${out_value}, cx, false, "Invalid Native Object");
@@ -118,6 +119,19 @@ conversions:
     "Vec2": "${out_value} = vector2_to_jsval(cx, ${in_value})"
     "Vec3": "${out_value} = vector3_to_jsval(cx, ${in_value})"
     "BlendFunc": "${out_value} = blendfunc_to_jsval(cx, ${in_value})"
+    "AnimationInfo": "${out_value} = animationInfo_to_jsval(cx, ${in_value})"
+    "spEventData*": "${out_value} = speventdata_to_jsval(cx, *${in_value})"
+    "spEvent*": "${out_value} = spevent_to_jsval(cx, *${in_value})"
+    "spBoneData*": "${out_value} = spbonedata_to_jsval(cx, *${in_value})"
+    "spBone*": "${out_value} = spbone_to_jsval(cx, *${in_value})"
+    "spSkeleton*": "${out_value} = spskeleton_to_jsval(cx, *${in_value})"
+    "spAttachment*": "${out_value} = spattachment_to_jsval(cx, *${in_value})"
+    "spSlotData*": "${out_value} = spslotdata_to_jsval(cx, *${in_value})"
+    "spSlot*": "${out_value} = spslot_to_jsval(cx, *${in_value})"
+    "spTimeline*": "${out_value} = sptimeline_to_jsval(cx, *${in_value})"
+    "spAnimationState*": "${out_value} = spanimationstate_to_jsval(cx, *${in_value})"
+    "spAnimation*": "${out_value} = spanimation_to_jsval(cx, *${in_value})"
+    "spTrackEntry*": "${out_value} = sptrackentry_to_jsval(cx, *${in_value})"
     object: |
       do {
       ${($level + 1) * '    '}if (${in_value}) {
